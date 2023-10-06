@@ -5,15 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { dataService } from './services/datashare.service';
+import { FormsModule } from '@angular/forms';
+import { ColorDirective } from 'src/directives/color.directive';
+import { Appendpipe, Filterpipe } from './pipe/append.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HelloComponent
+    HelloComponent,
+    ColorDirective,
+    Appendpipe,
+    Filterpipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [dataService],
   bootstrap: [AppComponent]

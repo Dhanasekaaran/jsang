@@ -1,15 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <p>Hello</p>
-    <app-hello></app-hello>
-{{dataserv.count}}
 
-<button (click) ="increment()">Increment</button>
+<body>
+    {{dataserv.count}}
+    <button (click)="increment()">Increment</button>
+
+    <!-- interpolation -->
+    <div>
+        {{name}}
+    </div>
+
+    <p [innerHTML]="msg"></p>
+
+    <p>{{msg}}</p>
+
+    <div [class]="class1">
+        Hello
+    </div>
+    {{htmldata}}
+    <div>
+        <input type="text" id="name" (change)="update($event)" value="Gopi">
+    </div>
+
+    <div [ngStyle]="{'margin-top.px': 20}">
+        <input type="text" id="name1" [(ngModel)]="htmldata" value="Gopi">
+    </div>
+    <!-- interpolation -->
+
+    <!-- NGIF -->
+    <h3>NGIF - structural direc</h3>
+    <div *ngIf="showVal else hide">
+        Hello!!! This is new html element
+    </div>
+
+    <ng-template #hide>
+        <p>Hai!!! This is another element</p>
+    </ng-template>
+    <!-- NGIF -->
+
+    <!-- NGFor and NGSwitch-->
+    <h3>NGFOR-structural direc</h3>
+    <div *ngFor="let ulist of userlist; let i = index">
+        <p>{{i + 1}}. {{ulist.name}}</p>
+        <div [ngSwitch]="ulist.gender">
+            <div class="female" *ngSwitchCase="'F'">
+                {{ulist.name}}
+            </div>
+            <div class="male" *ngSwitchCase="'M'">
+                {{ulist.name}}
+            </div>
+            <div *ngSwitchDefault>
+                {{ulist.name}}
+            </div>
+        </div>
+    </div>
+    <!-- NGFOR -->
+
+    <!-- Input and output -->
+    <h3>Parent part</h3>
+    <div>
+        <input type="text" name="appdata" [(ngModel)]="appdata">
+           <div>
+            {{childVal}}
+           </div> 
+        <app-hello [adata]="appdata" (cmsg)="getChild($event)"></app-hello>
+    </div>
+    <!-- Input and output -->
+
+    <!-- Hostlistener -->
+    <h1>Directives</h1>
+    <h3 appColor [color] = "'lightgreen'">List of Lang</h3>
+    <div *ngFor="let lang of languages; let i = index">
+        <p>{{i}}. {{lang}}</p>
+    </div>
+    <!-- Hostlistener -->
+
+    <!-- pipe -->
+    <h3>Default Pipe</h3>
+    <div>
+    Today :{{today | date:'dd-MM-yyyy'}}
+    </div>
+    <div>
+        Number : {{num | number: '5.3-5'}}
+    </div>
+    <div>
+        Currency : {{amount | currency:'CAD' : 'symbol' : '4.1-2' }}
+    </div>
+    <div>
+        Percent : {{ percen | percent : '3.1-2'}}
+    </div>
+    <div>
+        uppercase : {{ god | uppercase}}
+    </div>
+    <div>
+        lowercase :  {{ god | lowercase}}
+    </div>
+    <div>
+        titlecase : {{ god | titlecase}}   
+   </div>
+   <div>
+     Json : {{ obj | json}}
+   </div>
+   <div>
+    keyvalue : {{ obj | keyvalue | json}}
+   </div>
+   <div>
+    arr : {{ ary | json}}
+   </div>
+   <div>
+    slice : {{ ary | slice : 1 : -1 }}
+   </div>
+   <div>
+    custom : {{cutom | append : ' Developer'}}
+   </div>
+   
+ <input type="text" [(ngModel)] = "godz" #userIn>
+ <button (click) = "add(userIn.value)">add</button>
+   <div *ngFor="let gods of people | filter : 'gender' : 'M'">
+    <p>{{gods.name}}</p>
+   </div>
+    <!-- pipe -->
+
+
 </body>
+
 </html>

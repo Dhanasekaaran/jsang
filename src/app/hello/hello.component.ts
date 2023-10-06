@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter,Input,Output } from '@angular/core';
 import { dataService } from '../services/datashare.service';
 
 @Component({
@@ -8,7 +8,14 @@ import { dataService } from '../services/datashare.service';
   providers: [dataService]
 })
 export class HelloComponent {
+ @Input() adata = '';
+  @Output() cmsg  = new EventEmitter<any>;
+
 constructor(public dataServ : dataService) {
 
+}
+
+sendData(event:any) {
+  this.cmsg.emit(event.target.value)
 }
 }
