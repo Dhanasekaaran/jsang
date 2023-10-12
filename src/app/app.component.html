@@ -69,7 +69,10 @@
            <div>
             {{childVal}}
            </div> 
-        <app-hello [adata]="appdata" (cmsg)="getChild($event)"></app-hello>
+        <app-hello [adata]="appdata" (cmsg)="getChild($event)">
+            <h3 hcomp>This is hello content</h3>
+            <p class="div2">This is second div</p>
+        </app-hello>
     </div>
     <!-- Input and output -->
 
@@ -80,6 +83,10 @@
         <p>{{i}}. {{lang}}</p>
     </div>
     <!-- Hostlistener -->
+
+    <!-- custom directive -->
+    <div appColor [number] = "number1" [divide] = 11 >Number : {{ number1}}</div>
+    <!-- custom directive -->
 
     <!-- pipe -->
     <h3>Default Pipe</h3>
@@ -145,7 +152,124 @@
     <!-- Observable -->
     Observable : {{obv}}
     <!-- Observable -->
+    
+    <!-- routing -->
+    <div>
+        <!-- <a href="" routerLink="/hello">Hello component</a> -->
+        <button (click)="hello(12)">Navigate</button><br><br>
+        
+    </div>
+    <!-- routing -->
 
+    <!-- service -->
+    <div>
+        <label for="">Pname:</label>
+        <input type="text" [(ngModel)]="pname" name="pname"><br><br>
+        <label for="">Page:</label>
+        <input type="text" [(ngModel)]="page" name="page"><br><br>
+        <button (click) = "serviceFn()">click</button>
+    </div>
+    <!-- service -->
+
+    <!-- ngtemp-cont-conte -->
+    <div *ngFor = "let nums of ary">
+        <!-- <span *ngIf = "(nums % 2 == 0)">{{nums}}</span> -->
+        <ng-container *ngIf="(nums%2 == 0)">
+            {{nums}}
+        </ng-container>
+    </div>
+
+    <div>
+        <ng-template [ngIf] = "false">This is ngtemplates content</ng-template>
+        <div *ngIf="false else elseblock">
+            <p>consdition is true</p>
+        </div>
+        <ng-template #elseblock>
+            condition is false
+        </ng-template>
+    </div>
+    <!-- ngtemp-cont-conte -->
+
+    <!-- lifecycle -->
+    <h1>Parent component</h1>
+    <input type="text" [(ngModel)] = "onchnagecycle">
+    <button (click)="show()">childcomp</button><br><br>
+    <app-child *ngIf="childcp" [onchnagecycle] = "onchnagecycle">
+        <p #content>ContentInit lifecycle</p></app-child>
+    <!-- lifecycle -->
+
+     <!-- Templateform -->
+     <div class="container">
+        <div class="heading">Template Forms</div><br>
+        <div class="form-container">
+            <form #myForm="ngForm" (ngSubmit)="fsubmit(myForm)">
+                <div class="form-group">
+                    <label for="form-group">UserName:</label>
+                    <input type="text" name="uname" class="form-control" [ngModel] = "'Web technology'" required #uname1="ngModel" pattern="[a-zA-Z_ ]*$">
+                </div>
+                <small *ngIf="!uname1.valid && uname1.touched">Username is required</small>
+                <small *ngIf="uname1.errors?.['pattern']">Username only allow text</small>
+                <br>
+                <div class="form-group">
+                    <label for="form-group">Email:</label>
+                    <input type="email" name="email" class="form-control" [(ngModel)] = "email" required email #email1="ngModel" minlength="5">
+                </div>
+                <small *ngIf="email1.errors && email1.touched && email1.errors?.['email']">Email is Invalid</small>
+                <small *ngIf="email1.errors && email1.touched && email1.errors?.['required']">Email is required</small>
+                <small *ngIf="email1.errors && email1.touched && email1.errors?.['minlength']">Email is minlen</small>
+                <br>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="terms" class="form-check" [ngModel] = "true" >
+                    <label for="form-group form-check-label">Term & conditions</label>
+                </div>
+                <br>
+                <button type="submit" class="button" [disabled]="myForm.valid">submit</button>
+            </form>
+            <br>
+        </div>
+     </div>
+     <!-- Templateform -->
+
+     <!-- reactiveform -->
+     <div class="container">
+        <div class="heading">Reactive Forms</div><br>
+        <div class="form-container">
+           <form [formGroup] = "myReact" (ngSubmit) = "getforms()">
+                <div class="form-group">
+                    <label for="form-label">Username:</label>
+                    <input type="text" class="form-control" name="runame" formControlName = "runame"> 
+                </div><br>
+                <small *ngIf="!myReact.get('runame').valid && myReact.get('runame').touched">Username is not valid</small>
+                <div class="form-group">
+                    <label for="form-label">Email:</label>
+                    <input type="email" class="form-control" name="remail" formControlName = "remail"> 
+                </div><br>
+                <small *ngIf="myReact.get('remail').errors && myReact.get('remail').errors?.required   && myReact.get('remail').touched">Email is required</small><br>
+                <small *ngIf="myReact.get('remail').errors && myReact.get('remail').errors?.email   && myReact.get('remail').touched">Email is not valid</small>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-checkbox" name="rterm" formControlName = "rterm"> 
+                    <label for="form-check-label">Terms and condition</label>
+                </div><br>
+                <button type="submit" class="btn btn-primary" [disabled]="myReact.valid">submit</button>
+                <button type="button" class="btn btn-primary" (click)="rReact1()">Reset</button>
+           </form>
+        </div>
+     </div>
+     <!-- reactiveform -->
+
+     <!-- templateref -->
+     <div>
+        <p #temp1>hello tempvariavle</p>
+        <input type="text" #temp ngModel (input)="analyse(temp.value)">
+        <button (click)="gettempval(temp,temp1)" [disabled]="temp.value.length === 0">click</button>
+     </div>
+
+     <div>
+        Number of letter: {{temp.value.length}}
+        <div *ngFor="let vow of vowel"> {{vow.letter}} : {{vow.count}}</div>
+     </div>
+     <!-- templateref -->
+    <router-outlet></router-outlet>
 </body>
 
 </html>

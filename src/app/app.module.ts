@@ -5,9 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { dataService } from './services/datashare.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorDirective } from 'src/directives/color.directive';
 import { Appendpipe, Filterpipe } from './pipe/append.pipe';
+import { ChildComponent } from './child/child.component';
 
 @NgModule({
   declarations: [
@@ -15,12 +16,14 @@ import { Appendpipe, Filterpipe } from './pipe/append.pipe';
     HelloComponent,
     ColorDirective,
     Appendpipe,
-    Filterpipe
+    Filterpipe,
+    ChildComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
   providers: [dataService],

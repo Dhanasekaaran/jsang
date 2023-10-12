@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class Appendpipe implements PipeTransform {
     transform(value:any, appendVal : any) {
-        console.log(value);
+        //console.log(value);
         return value + appendVal
     }
 }
