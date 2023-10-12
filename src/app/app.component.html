@@ -269,6 +269,19 @@
         <div *ngFor="let vow of vowel"> {{vow.letter}} : {{vow.count}}</div>
      </div>
      <!-- templateref -->
+
+     <!-- trackby -->
+     <div class="my-container">
+        <div class="btn-container">
+            <button (click)="refresh()">refresh</button>
+        </div>
+        <div class="item-container">
+            <div *ngFor="let mem of member; trackBy:trackMem">
+                {{mem.name}}
+            </div>
+        </div>
+     </div>
+     <!-- trackby -->
     <router-outlet></router-outlet>
 </body>
 

@@ -54,6 +54,14 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
    { letter: 'u', count: 0 }
   ]
 
+  member = [
+    {id:1, name:'poori'},
+    {id:2, name:'chappati'},
+    {id:3, name:'idly'},
+    {id:4, name:'dosa'},
+    {id:5, name:'pongal'}
+  ];
+
   number1 = 77;
 
  // jsonData = this.http.get('https://dummyjson.com/products/2');
@@ -195,5 +203,20 @@ console.log(aCount);
       {letter:'o',count:oCount},
       {letter:'u',count:uCount}
     ]
+  }
+
+  refresh() {
+    this.member = [
+      {id:1, name:'poori'},
+      {id:2, name:'chappati'},
+      {id:4, name:'parota'},
+      {id:5, name:'dosa'},
+      {id:6, name:'meal'}
+    ];
+  }
+
+  trackMem(index:any,item:any) {
+    //return index;
+    return item.id;
   }
 }
