@@ -282,7 +282,49 @@
         </div>
      </div>
      <!-- trackby -->
+
+     <!-- headers -->
+     <div class="conatiner">
+        <header>
+            <nav>
+                <a href="" [ngStyle] = "{'padding.px':20,'margin.px': 10,'color':'black'}" routerLink="/child">Home</a>
+                <a href="" [ngStyle] = "{'padding.px':20,'margin.px': 10,'color':'black'}">about</a>
+                <a href="" [ngStyle] = "{'padding.px':20,'margin.px': 10,'color':'black'}">product</a>
+                <a href="" [ngStyle] = "{'padding.px':20,'margin.px': 10,'color':'black'}">service</a>
+            </nav>
+        </header>
+     </div>
+     <!-- headers -->
+
+     <!-- lazymod -->
+     <a href="" routerLink="lazymod">Lazymod</a><br>
+     <a href="" routerLink="lazyload">Lazyloading</a>
+     <!-- lazymod -->
+
+     <!-- httpintercept -->
+     <div>
+        <button (click)="intercep()">Button1</button>
+     </div>
+     <!-- httpintercept -->
+
+     <!-- forkjoin -->
+     <div>
+        {{fobs}}
+     </div>
+     <br>
+     <div>
+        {{fobs2}}
+     </div>
+     <!-- forkjoin -->
+
+     <!-- Promise -->
+     <br>
+     <div class="btn-conatiner">
+        <div>
+            <a href="" routerLink="/child" style="background-color:green; border: 1px solid; padding:20px">promise</a>
+        </div>
+     </div><br>
+     <!-- Promise -->
     <router-outlet></router-outlet>
 </body>
-
 </html>

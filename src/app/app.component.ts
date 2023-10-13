@@ -1,7 +1,7 @@
 import { Component, DoCheck, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { dataService } from './services/datashare.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable, interval} from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, forkJoin, interval} from 'rxjs';
 import { map,take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -40,6 +40,8 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
   uname:any;
   email:any;
   terms:any;
+  fobs:any;
+  fobs2:any;
   myReact: FormGroup | any;
   people = [{name:'siva',gender:'M'},{name:'Meena',gender:'F'},{name:'vinayaga',gender:'M'},{name:'muruga',gender:'M'}];
   languages = ['Tamil','malayalam','kannada','hindi','telugu','english'];
@@ -102,6 +104,20 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
       'remail' : new FormControl('',[Validators.required,Validators.email]),
       'rterm' : new FormControl(),
     })
+
+    //this.forkjoin();
+    //this.forkjoin1();
+    // this.getallforks().subscribe((result) => {
+    //   console.log(result);
+    //   this.fobs = result[0];
+    //   this.fobs2 = result[1];
+    // })
+    this.dataserv.getall().subscribe((result) => {
+      console.log(result);
+      this.fobs = result[0];
+      this.fobs2 = result[1];
+    })
+   
   }
 
   increment() {
@@ -219,4 +235,45 @@ console.log(aCount);
     //return index;
     return item.id;
   }
+
+  // token = "34343434334er334";
+  intercep(){
+   /* const headers = new HttpHeaders({
+      'Authoirisation' : `Bearer ${this.token}` 
+    })
+    this.http.get('https://jsonplaceholder.typicode.com/albums',{headers : headers}).subscribe((res) => {
+      console.log(res);
+    })*/
+    // this.http.get('https://jsonplaceholder.typicode.com/albummys').subscribe((res) => {
+    //   console.log(res);
+    // })
+
+  }
+  forkjoin() {
+    return new Observable<any>((observer) => {
+      setTimeout(() => {
+        observer.next('First Fork')
+      },5000)      
+    }).subscribe((fo) => {
+      this.fobs = fo
+      
+    })
+  }
+
+
+
+  forkjoin1() {
+    return new Observable<any>((observer) => {
+      setTimeout(() => {
+        observer.next('second Fork')
+      },2000)      
+    }).subscribe((foe) => {
+      this.fobs2 = foe
+    })
+  }
+
+  getallforks() {
+  
+  }
+  
 }

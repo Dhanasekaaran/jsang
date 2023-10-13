@@ -2,3 +2,12 @@
 <ng-content>
     
 </ng-content>
+
+<div>
+    <p style="border-radius: 175px;border:2px solid;width:7%;height:70%" *ngIf="isStatus">online</p>
+    <p style="border-radius: 175px;border:2px solid;width:7%;height:70%" *ngIf="!isStatus">offline</p>
+</div>
+
+<div>
+    <p (click)="getdata()">Observable</p>
+</div>
