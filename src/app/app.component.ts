@@ -1,7 +1,7 @@
 import { Component, DoCheck, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { dataService } from './services/datashare.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin, interval} from 'rxjs';
+import { Observable, forkJoin, from, fromEvent, interval,of} from 'rxjs';
 import { map,take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -42,6 +42,7 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
   terms:any;
   fobs:any;
   fobs2:any;
+  prome:any;
   myReact: FormGroup | any;
   people = [{name:'siva',gender:'M'},{name:'Meena',gender:'F'},{name:'vinayaga',gender:'M'},{name:'muruga',gender:'M'}];
   languages = ['Tamil','malayalam','kannada','hindi','telugu','english'];
@@ -94,6 +95,8 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
       console.log('err' + error)
     }, //() => console.log('Observer got a complete notification')
     );
+
+   
   }
   
   ngOnInit(): void {
@@ -117,7 +120,41 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
       this.fobs = result[0];
       this.fobs2 = result[1];
     })
-   
+
+    const obsRx = from([1,2,3]);
+    obsRx.subscribe({
+      next(result) {
+        console.log('from obs',result)
+      },error(err){
+        console.log('error',err)
+      },complete() {
+        console.log('comnplete')
+      }
+    })
+
+    const el = document.getElementById('ptag')!;
+
+    // Create an Observable that will publish mouse movements
+    const mouseMoves = fromEvent(document.getElementById('ptag')!, 'click');
+
+    mouseMoves.subscribe((res) =>{
+      console.log('Number of times',res)
+    })
+
+
+    const int = interval(1000).pipe(map(x => x +' '+ 'seconds'),take(5));
+
+    int.subscribe(res => {
+      console.log(res)
+    })
+
+    const obe = of(4,8,12);
+
+    obe.subscribe((res) => {
+      console.log(res)
+    })
+    
+    
   }
 
   increment() {
@@ -274,6 +311,10 @@ console.log(aCount);
 
   getallforks() {
   
+  }
+
+  prom1(){
+  this.prome= this.http.get('https://dummyjson.com/products/2')
   }
   
 }

@@ -324,7 +324,16 @@
             <a href="" routerLink="/child" style="background-color:green; border: 1px solid; padding:20px">promise</a>
         </div>
      </div><br>
+     <button (click)="prom1()">async</button>
+     {{prome | async | json}}
      <!-- Promise -->
+
+     <!-- rxjs -->
+     <div>
+        <p id="ptag">RXJS</p>
+     </div>
+     <!-- rxjs -->
+
     <router-outlet></router-outlet>
 </body>
 </html>
