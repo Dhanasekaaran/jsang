@@ -1,8 +1,8 @@
 import { Component, DoCheck, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { dataService } from './services/datashare.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin, from, fromEvent, interval,of} from 'rxjs';
-import { map,take } from 'rxjs/operators';
+import { Observable, combineLatest, forkJoin, merge, from, fromEvent, interval,of,concat} from 'rxjs';
+import { concatMap, debounceTime, map,mapTo,mergeMap,scan,switchMap,take,takeUntil,tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -116,7 +116,7 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
     //   this.fobs2 = result[1];
     // })
     this.dataserv.getall().subscribe((result) => {
-      console.log(result);
+     // console.log(result);
       this.fobs = result[0];
       this.fobs2 = result[1];
     })
@@ -124,11 +124,11 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
     const obsRx = from([1,2,3]);
     obsRx.subscribe({
       next(result) {
-        console.log('from obs',result)
+       // console.log('from obs',result)
       },error(err){
-        console.log('error',err)
+       // console.log('error',err)
       },complete() {
-        console.log('comnplete')
+      //  console.log('comnplete')
       }
     })
 
@@ -138,23 +138,97 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
     const mouseMoves = fromEvent(document.getElementById('ptag')!, 'click');
 
     mouseMoves.subscribe((res) =>{
-      console.log('Number of times',res)
+     // console.log('Number of times',res)
     })
 
 
     const int = interval(1000).pipe(map(x => x +' '+ 'seconds'),take(5));
 
     int.subscribe(res => {
-      console.log(res)
+     // console.log(res)
     })
 
     const obe = of(4,8,12);
 
     obe.subscribe((res) => {
-      console.log(res)
+     // console.log(res)
+    })
+
+    //combineLatest 
+
+    const t1 = interval(1000).pipe(map(y1 => y1+' '+'seconds'));
+
+    const t2 = interval(5000).pipe(map(y2 => y2+' '+ 'seconds'));
+
+    const t3 = combineLatest(t1).subscribe((res) => {
+      //console.log(res)
+    })
+
+    //conact
+
+    const a1 = interval(6000).pipe
+    (map(aa1 => aa1 + ' concat'),take(2));
+
+    const a2 = interval(7000).pipe(map(d => d + ' 2 concat'),take(3))
+
+    const con = concat(a1,a2).subscribe((res:any) => {
+      //console.log(res)
+    })
+
+    //forkjoin
+
+    const f1 =interval(4000).pipe(map(x  => x),take(2));
+
+    const f2 = interval(5000).pipe(map(x  => x),take(2));
+
+    const fk = forkJoin(f1,f2).subscribe((res:any) => {
+    //  console.log('Fork Join', res)
+    })
+
+    //merge
+
+     const m11 =interval(4000).pipe(map(x  => x),take(2));
+
+    const m2 = interval(500).pipe(map(x  => x  + 2),take(2));
+
+    const mer = merge(f1,f2).subscribe((res:any) => {
+     // console.log('merge ', res)
+    })
+
+    //debounceTime || bufferTime
+
+    const d1 = fromEvent(document.getElementById('debounce')!,'click');
+
+    const d2 = d1.pipe(debounceTime(2000)).subscribe((res) => {
+     // console.log('Debounce ',res)
     })
     
-    
+    //concatMap,merge,switch
+
+    const w1 = of('a','b','c')
+    const w2 = w1.pipe(switchMap(cm => of(0,1,2).pipe(take(3),map(x => cm + x))))
+    w2.subscribe((final) => {
+      console.log('Merge ',final)
+    })
+
+    //scan
+    const click = fromEvent(document.getElementById('scan')!,'click');
+    const one = click.pipe(mapTo(1));
+    const seed = 0;
+    const ree = one.pipe(scan((acc,cur) =>  acc + cur,seed ));
+    ree.subscribe((res:any) => {
+      console.log('scan ',res)
+    })
+
+    //takeUntil
+
+    const e1 = fromEvent(document.getElementById('until')!,'click');
+    const e2 = interval(5000);
+    const e3 = e2.pipe(takeUntil(e1));
+    e3.subscribe((red:any) => {
+      console.log('Take until ',red)
+    })
+
   }
 
   increment() {
