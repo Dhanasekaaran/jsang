@@ -1,7 +1,7 @@
 import { Component, DoCheck, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { dataService } from './services/datashare.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, combineLatest, forkJoin, merge, from, fromEvent, interval,of,concat} from 'rxjs';
+import { Observable, combineLatest, forkJoin, merge, from, fromEvent, interval,of,concat, Subject} from 'rxjs';
 import { concatMap, debounceTime, map,mapTo,mergeMap,scan,switchMap,take,takeUntil,tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -43,6 +43,8 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
   fobs:any;
   fobs2:any;
   prome:any;
+  sub:any;
+  countt = 0;
   myReact: FormGroup | any;
   people = [{name:'siva',gender:'M'},{name:'Meena',gender:'F'},{name:'vinayaga',gender:'M'},{name:'muruga',gender:'M'}];
   languages = ['Tamil','malayalam','kannada','hindi','telugu','english'];
@@ -95,6 +97,21 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
       console.log('err' + error)
     }, //() => console.log('Observer got a complete notification')
     );
+    
+    //subject
+    this.dataserv.sub.subscribe(x => {
+      console.log('subject result ',this.sub = x)
+    })
+
+    //Behavour subject
+    this.dataserv.subObs.subscribe((subRe) => {
+      console.log('Behaviour subject ',subRe)
+    })
+    
+    //Replay
+    this.dataserv.repObs.subscribe((repl) => {
+      console.log('Replay subject ',repl)
+    })
 
    
   }
@@ -107,7 +124,7 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
       'remail' : new FormControl('',[Validators.required,Validators.email]),
       'rterm' : new FormControl(),
     })
-
+    this.dataserv.subdata();
     //this.forkjoin();
     //this.forkjoin1();
     // this.getallforks().subscribe((result) => {
@@ -226,8 +243,25 @@ export class AppComponent implements OnInit,OnChanges,DoCheck{
     const e2 = interval(5000);
     const e3 = e2.pipe(takeUntil(e1));
     e3.subscribe((red:any) => {
-      console.log('Take until ',red)
+     // console.log('Take until ',red)
     })
+
+    const cot = fromEvent(document.getElementById('cat')!,'click').pipe(take(1));
+
+    const run = interval(2000).pipe(take(4));
+
+     concat(cot,run).subscribe((allo:any) => {
+      console.log('concat ',allo)
+     })
+
+     const com = interval(2000).pipe(take(3),map(x => x));
+
+     const com2 = interval(3000).pipe(take(4),map(y => y));
+
+     const counr = combineLatest(com,com2).subscribe((res:any) => {
+      console.log('clate ', res)
+     })
+     
 
   }
 
@@ -389,6 +423,22 @@ console.log(aCount);
 
   prom1(){
   this.prome= this.http.get('https://dummyjson.com/products/2')
+  }
+
+  behsub(){
+   this.dataserv.behdata();
+  }
+
+  repsub() {
+    this.countt++;
+    this.dataserv.repdata();
+    console.log(this.countt);
+    if(this.countt == 3) {
+      console.log('x')
+      this.dataserv.repObs.subscribe((rp) => {
+        console.log('Replay subc ',rp)
+      })
+    }
   }
   
 }
